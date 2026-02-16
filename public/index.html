@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selasar Bumi Coffee Aeterni</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-3moiKUzcw9PjJ-aa"></script> 
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">Selasar Bumi<span>.</span></div>
+            <div class="nav-links">
+                <a href="#hero-section">Home</a>
+                <a href="#about">Cerita</a>
+                <a href="#menu">Menu</a>
+                <a href="#contact">Lokasi</a>
+            </div>
+            <div class="nav-icons">
+                <a href="#" id="cart-btn"><i data-feather="shopping-cart"></i> <span id="cart-count">0</span></a>
+                <a href="#" id="hamburger"><i data-feather="menu"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero-section" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1>Coffee Aeterni</h1>
+            <p class="sub-heading">"Kehangatan Bumi dalam Setiap Tegukan"</p>
+            <p class="description">Nikmati suasana earthy & cozy di tengah hiruk pikuk kota. Tempat terbaik untuk menemukan ketenangan.</p>
+            <a href="#menu" class="btn-primary">Lihat Menu</a>
+        </div>
+    </section>
+
+    <section id="about" class="about section-padding">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-img-wrapper">
+                    <img src="https://files.catbox.moe/pvpx9v.jpeg" alt="Interior Cafe" class="about-img" id="img-about-dynamic">
+                    <div class="img-accent"></div>
+                </div>
+                <div class="about-text">
+                    <span class="section-subtitle">TENTANG KAMI</span>
+                    <h2 class="section-title-left">Harmoni Alam & Kopi</h2>
+                    <p>Selasar Bumi Coffee Aeterni lahir dari keinginan sederhana: menyatukan ketenangan alam dengan gaya hidup modern. Kami percaya kopi bukan sekadar minuman, tapi sebuah pengalaman.</p>
+                    <div class="features">
+                        <div class="feature-item"><i data-feather="wifi"></i> Super Fast Wifi</div>
+                        <div class="feature-item"><i data-feather="coffee"></i> 100% Arabica</div>
+                        <div class="feature-item"><i data-feather="music"></i> Relaxing Ambience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu section-padding bg-cream">
+        <div class="container">
+            <h2 class="section-title center">Menu Pilihan</h2>
+            
+            <div class="menu-tabs">
+                <button class="tab-btn active" onclick="filterMenu('all')" data-category="all">Semua</button>
+                <button class="tab-btn" onclick="filterMenu('coffee')" data-category="coffee">Coffee</button>
+                <button class="tab-btn" onclick="filterMenu('non-coffee')" data-category="non-coffee">Non-Coffee</button>
+                <button class="tab-btn" onclick="filterMenu('eatery')" data-category="eatery">Eatery</button>
+            </div>
+
+            <div class="menu-grid" id="menu-container">
+                </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact section-padding">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-subtitle">KUNJUNGI KAMI</span>
+                    <h2 class="section-title-left">Lokasi & Kontak</h2>
+                    <p class="mb-4">Mampir ke tempat kami untuk menikmati kopi terbaik di suasana pedesaan yang asri.</p>
+                    
+                    <div class="contact-item">
+                        <i data-feather="map-pin"></i>
+                        <div>
+                            <h4>Alamat</h4>
+                            <p>Luragung Landeuh, Kec. Luragung, Kabupaten Kuningan, Jawa Barat 45581.</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i data-feather="clock"></i>
+                        <div>
+                            <h4>Jam Buka</h4>
+                            <p>Senin - Minggu: 08.00 - 23.00</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i data-feather="message-circle"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/6281234567890" target="_blank" class="contact-link" id="link-wa">Chat Admin (+62 812-3456-7890)</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i data-feather="mail"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:halo@selasarbumi.id" class="contact-link" id="link-email">halo@selasarbumi.id</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i data-feather="instagram"></i>
+                        <div>
+                            <h4>Instagram</h4>
+                            <p><a href="https://www.instagram.com/selasarbumi.coffee" target="_blank" class="contact-link" id="link-ig">@selasarbumi</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i data-feather="video"></i>
+                        <div>
+                            <h4>TikTok</h4>
+                            <p><a href="https://tiktok.com/@selasarbumi" target="_blank" class="contact-link" id="link-tiktok">@selasarbumi.coffee</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-wrapper">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15839.696356137323!2d108.61861706809162!3d-7.018209142084818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f0d0019147c9d%3A0x72e1379f6f73d1ae!2sSelasar%20Bumi%20Coffee%20%26%20Eatery!5e0!3m2!1sid!2sid!4v1771225723812!5m2!1sid!2sid"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-sidebar" id="shopping-cart">
+        <div class="cart-header">
+            <h3>Keranjang</h3>
+            <span class="close-cart" id="close-cart"><i data-feather="x"></i></span>
+        </div>
+        <div class="cart-items-container" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>Total:</span>
+                <span id="cart-total">Rp 0</span>
+            </div>
+            <div class="checkout-form">
+                <input type="text" id="cust-name" placeholder="Nama Lengkap" required>
+                <input type="tel" id="cust-phone" placeholder="Nomor WhatsApp" required>
+                <button class="btn-primary btn-block" onclick="processCheckout()">Checkout</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>Selasar Bumi.</h3>
+            </div>
+            <div class="copyright">
+                <p>© 2026 Selasar Bumi Coffee Aeterni.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>feather.replace()</script>
+    <div id="toast-cust" class="toast-hidden"></div>
+</body>
+</html>

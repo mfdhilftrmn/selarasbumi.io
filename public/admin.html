@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Selasar Pro | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-brand">Selasar Pro.</div>
+        <nav class="nav-menu">
+            <li class="nav-item active" onclick="showView('dashboard', this)"><i data-feather="grid"></i> Dashboard</li>
+            <li class="nav-item" onclick="showView('orders', this)"><i data-feather="shopping-bag"></i> Pesanan</li>
+            <li class="nav-item" onclick="showView('menu', this)"><i data-feather="coffee"></i> Menu Kopi</li>
+            <li class="nav-item" onclick="showView('settings', this)"><i data-feather="settings"></i> Pengaturan</li>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        
+        <div id="view-dashboard" class="admin-view">
+            <header style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>Ringkasan Toko</h1>
+                    <select id="stats-filter" onchange="loadDashboardStats()" style="width: auto; padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd;">
+                        <option value="all">Semua Waktu</option>
+                        <option value="today">Hari Ini</option>
+                        <option value="week">Minggu Ini</option>
+                        <option value="month">Bulan Ini</option>
+                        <option value="year">Tahun Ini</option>
+                    </select>
+                </div>
+                <button onclick="openResetModal()" style="background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer;">
+                    <i data-feather="trash-2" style="width: 16px; vertical-align: middle;"></i> Reset Data
+                </button>
+            </header>
+
+            <div class="stats-container">
+                <div class="stat-card" style="border-bottom: 4px solid #2e7d32;">
+                    <i data-feather="dollar-sign"></i> 
+                    <div><h3 id="stat-balance">Rp 0</h3><p>Total Saldo (Lunas)</p></div>
+                </div>
+                <div class="stat-card" style="border-bottom: 4px solid #C6A87C;">
+                    <i data-feather="shopping-cart"></i> 
+                    <div><h3 id="stat-sold">0</h3><p>Produk Terjual</p></div>
+                </div>
+                <div class="stat-card">
+                    <i data-feather="clock"></i> 
+                    <div><h3 id="stat-orders">0</h3><p>Antrean</p></div>
+                </div>
+            </div>
+
+            <div class="card log-card-full" style="margin-top: 30px;">
+                <div class="card-header"><h2>📊 Log Penjualan Real-time</h2></div>
+                <div style="overflow-x: auto;">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Produk</th>
+                                <th>Kategori</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-log-list">
+                            <tr><td colspan="5" style="text-align:center; padding:20px;">Belum ada data penjualan.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-orders" class="admin-view hidden">
+            <header><h1>Antrean Pesanan</h1></header>
+            <div id="order-list">Memuat pesanan...</div>
+        </div>
+
+        <div id="view-menu" class="admin-view hidden">
+            <header><h1>Manajemen Menu</h1></header>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header"><h2>➕ Menu Baru</h2></div>
+                    <form id="product-form" onsubmit="event.preventDefault(); addProduct();">
+                        <input type="text" id="p-name" placeholder="Nama Produk" required>
+                        <input type="number" id="p-price" placeholder="Harga" required>
+                        <select id="p-category">
+                            <option value="coffee">Coffee</option>
+                            <option value="non-coffee">Non-Coffee</option>
+                            <option value="eatery">Eatery</option>
+                        </select>
+                        <input type="text" id="p-image" placeholder="URL Foto">
+                        <textarea id="p-desc" placeholder="Deskripsi Singkat"></textarea>
+                        <button type="submit" class="btn-submit">Posting Menu</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h2>🛒 Katalog Live</h2></div>
+                    <div id="menu-list" class="menu-admin-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-settings" class="admin-view hidden">
+            <header><h1>Pengaturan Toko</h1></header>
+            
+            <div class="dashboard-grid">
+                <div class="card settings-card-full">
+                    <div class="card-header"><h2>📱 Kontak & Operasional</h2></div>
+                    
+                    <div class="form-group">
+                        <label>Status Toko</label>
+                        <select id="set-status">
+                            <option value="open">🟢 Buka (Terima Pesanan)</option>
+                            <option value="closed">🔴 Tutup (Sementara)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor WhatsApp (628...)</label>
+                        <input type="number" id="set-wa" placeholder="Contoh: 628123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Toko</label>
+                        <input type="text" id="set-email" placeholder="halo@selasar.id">
+                    </div>
+                    <div class="form-group">
+                        <label>Username Instagram</label>
+                        <input type="text" id="set-ig" placeholder="@username (tanpa link)">
+                    </div>
+                    <div class="form-group">
+                        <label>Username TikTok</label>
+                        <input type="text" id="set-tiktok" placeholder="@username">
+                    </div>
+                </div>
+
+                <div class="card settings-card-full">
+                    <div class="card-header"><h2>🖼️ Ganti Foto Website</h2></div>
+                    
+                    <div class="form-group">
+                        <label>Foto Banner Utama (Home)</label>
+                        <input type="text" id="set-hero-img" placeholder="Tempel URL Gambar di sini...">
+                        <small style="color: #888; display:block; margin-top:5px;">Gunakan link gambar (akhiran .jpg/.png)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Foto 'Tentang Kami'</label>
+                        <input type="text" id="set-about-img" placeholder="Tempel URL Gambar di sini...">
+                    </div>
+
+                    <div class="settings-actions">
+                        <button onclick="logout()" class="btn-logout-premium">Keluar</button>
+                        <button class="btn-submit" id="btn-save-settings">Simpan Perubahan</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card log-card-full">
+                <div class="card-header"><h2>📋 Riwayat Akses Login</h2></div>
+                <div style="overflow-x: auto;">
+                    <table class="log-table">
+                        <thead><tr><th>Waktu</th><th>Nama Admin</th><th>NIK</th></tr></thead>
+                        <tbody id="log-list">
+                            <tr><td colspan="3" style="text-align:center;">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modal-reset" class="overlay hidden" style="display: none; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
+        <div class="card" style="width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffcdd2;">
+            <h2 style="color: #c62828;">⚠️ Hapus Data Penjualan?</h2>
+            <p style="margin-bottom: 20px; color: #666;">Tindakan ini <b>permanen</b>. Masukkan NIK & PIN Admin untuk konfirmasi.</p>
+            
+            <input type="text" id="reset-nik" placeholder="NIK Admin" style="margin-bottom: 10px;">
+            <input type="password" id="reset-pin" placeholder="PIN Rahasia" style="margin-bottom: 20px;">
+            
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeResetModal()" style="flex: 1; padding: 12px; background: #eee; border: none; border-radius: 8px; cursor: pointer;">Batal</button>
+                <button onclick="confirmReset()" id="btn-confirm-reset" style="flex: 1; padding: 12px; background: #c62828; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">HAPUS SEMUA</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast-hidden"></div>
+    <script src="admin.js"></script>
+    <script>
+        // Tambahan logika submit form produk
+        async function addProduct() {
+            const name = document.getElementById('p-name').value;
+            const price = document.getElementById('p-price').value;
+            const category = document.getElementById('p-category').value;
+            const image = document.getElementById('p-image').value;
+            const desc = document.getElementById('p-desc').value;
+
+            if(!name || !price) return alert("Nama dan Harga wajib diisi");
+
+            await fetch('/api/admin/add-product', {
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, price, category, image, description: desc })
+            });
+
+            document.getElementById('product-form').reset();
+            loadMenu();
+            showToast("✅ Menu berhasil ditambahkan!");
+        }
+    </script>
+</body>
+</html>

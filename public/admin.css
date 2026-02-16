@@ -1,0 +1,285 @@
+/* --- TEMA PREMIUM: WARM MINIMALIST v3 --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    --bg-body: #FDFBF7;      
+    --bg-card: #FFFFFF;      
+    --primary: #2C1810;      /* Coklat Kopi Tua */
+    --accent: #C6A87C;       /* Emas Latte */
+    --text-main: #1a1a1a;
+    --text-muted: #8c8c8c;
+    --border-subtle: #f0f0f0;
+    --input-bg: #F7F5F0;
+    --danger: #9c2525;
+    --success: #2e7d32;
+    --shadow-soft: 0 10px 40px -10px rgba(44, 24, 16, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; }
+
+/* --- SIDEBAR DENGAN BACKGROUND GAMBAR PREMIUM --- */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    z-index: 100;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    color: #eaddcf;
+
+    /* --- SETTING GAMBAR DISINI --- */
+    background-image: 
+        /* Lapisan 1: Gradient Hitam ke Coklat Gelap (Overlay agar teks terbaca jelas) */
+        linear-gradient(rgba(0, 0, 0, 0.8), rgba(44, 24, 16, 0.9)),
+        /* Lapisan 2: Link Gambar Biji Kopi Estetik */
+        url('https://files.catbox.moe/pvpx9v.jpeg');
+
+    background-size: cover;      /* Memastikan gambar penuh */
+    background-position: center; /* Memastikan gambar di tengah */
+    background-repeat: no-repeat;
+    
+    /* Shadow agar terlihat terpisah dari konten putih */
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Tambahan: Pastikan brand Selasar Pro terlihat lebih elegan di atas gambar */
+.sidebar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #FFFFFF !important; /* Warna putih solid agar kontras */
+    margin-bottom: 3rem;
+    padding-left: 10px;
+    border-left: 4px solid var(--accent);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.nav-item {
+    padding: 14px 20px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; font-weight: 500;
+    color: rgba(255,255,255,0.6); transition: 0.3s; display: flex; align-items: center; gap: 12px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: white; transform: translateX(5px); }
+.nav-item.active { background: var(--accent); color: var(--primary); font-weight: 600; }
+.nav-item i { width: 18px; }
+
+/* KONTEN UTAMA */
+.main-content { flex: 1; margin-left: 260px; padding: 3rem 4rem; }
+header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 2.5rem; }
+
+/* COMPONENTS */
+.hidden { display: none; }
+.card { background: var(--bg-card); padding: 2rem; border-radius: 24px; box-shadow: var(--shadow-soft); margin-bottom: 2rem; }
+.card-header h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
+
+/* FORMS */
+.form-group { margin-bottom: 1.2rem; }
+label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea {
+    width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid transparent;
+    border-radius: 12px; color: var(--primary); transition: 0.3s; font-size: 0.95rem;
+}
+input:focus, select:focus, textarea:focus { outline: none; background: white; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(198, 168, 124, 0.1); }
+.btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(44, 24, 16, 0.2); }
+
+/* --- PERBAIKAN: KATALOG LIVE (KARTU RAPI) --- */
+.dashboard-grid { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; }
+.menu-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+.admin-product-card {
+    background: white; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px;
+    display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+    box-shadow: var(--shadow-soft); transition: 0.3s; min-height: 180px;
+}
+.admin-product-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+.card-top h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+.card-top p { font-size: 0.9rem; color: var(--text-muted); }
+.status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; float: right; }
+.status-ready { background: #edf7ed; color: var(--success); }
+.status-habis { background: #fdeded; color: var(--danger); }
+
+.admin-card-btns {
+    margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-subtle);
+    display: flex; gap: 10px; align-items: center;
+}
+.btn-toggle { flex: 1; padding: 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+.btn-del { 
+    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+    background: #fff5f5; color: var(--danger); border: 1px solid #ffcdd2; border-radius: 8px; cursor: pointer; 
+}
+.btn-del:hover { background: var(--danger); color: white; }
+
+/* --- PERBAIKAN: SETTINGS & LOG (FULL WIDTH / LEBAR) --- */
+
+/* Kita gabungkan style kartu agar keduanya sama-sama lebar */
+.settings-card-full, 
+.log-card-full { 
+    width: 100%; 
+    max-width: 100%; 
+    margin-bottom: 30px; 
+}
+
+/* Pastikan Input dan Select mengisi ruangan */
+.form-group input, 
+.form-group select {
+    width: 100%; /* Memaksa lebar penuh */
+    box-sizing: border-box; /* Agar padding tidak merusak lebar */
+}
+
+/* Tombol di kanan */
+.settings-actions {
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 10px;
+    margin-top: 25px; 
+    padding-top: 20px; 
+    border-top: 1px dashed var(--border-subtle);
+}
+
+.settings-actions button { width: auto; padding: 10px 25px; font-size: 0.9rem; border-radius: 10px; }
+.btn-logout-premium { background: transparent; color: var(--danger); border: 1px solid transparent; font-weight: 600; }
+.btn-logout-premium:hover { background: #fff5f5; border-color: #ffdcdc; }
+#btn-save-settings { width: auto; margin-top: 0; }
+
+.log-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.log-table th { background: var(--input-bg); color: var(--primary); font-weight: 700; padding: 15px; text-align: left; font-size: 0.85rem; }
+.log-table td { padding: 15px; border-bottom: 1px solid var(--border-subtle); font-size: 0.9rem; color: #444; }
+
+/* DASHBOARD STATS & TOAST */
+.stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.stat-card { background: white; padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 15px; }
+.stat-card h3 { font-size: 2rem; color: var(--primary); margin:0; }
+#toast { 
+    position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: white; 
+    padding: 12px 24px; border-radius: 50px; z-index: 999; opacity: 0; transition: 0.4s; transform: translateY(20px); 
+}
+#toast.toast-show { opacity: 1; transform: translateY(0); }
+
+/* --- TAMPILAN ANTREAN PESANAN (KITCHEN DISPLAY) --- */
+
+/* Grid agar kartu berjejer rapi */
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsif */
+    gap: 1.5rem;
+    padding-bottom: 50px;
+}
+
+/* Kartu Tiket Pesanan */
+.order-ticket {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: slideUp 0.3s ease-out; /* Efek muncul */
+}
+
+.order-ticket:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(44, 24, 16, 0.1);
+    border-color: var(--accent);
+}
+
+/* Bagian Atas Tiket (Nomor Order) */
+.ticket-header {
+    background: var(--input-bg);
+    padding: 15px 20px;
+    border-bottom: 1px dashed #dcdcdc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-no {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+}
+
+/* Bagian Tengah (Nama & Menu) */
+.ticket-body {
+    padding: 20px;
+    flex: 1; /* Isi ruang kosong */
+}
+
+.cust-name {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 8px;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+.qty-circle {
+    background: var(--primary);
+    color: var(--accent);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.order-item b {
+    font-size: 1rem;
+    color: var(--text-main);
+    line-height: 1.3;
+}
+
+/* Bagian Bawah (Tombol Selesai) */
+.ticket-footer {
+    padding: 15px 20px;
+    background: white;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.btn-done {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.btn-done:hover {
+    background: var(--success); /* Hijau saat di-hover */
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+}
+
+/* Animasi saat pesanan masuk */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin | Selasar Bumi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #F5F1E8; /* Warna Beige */
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        .login-card { 
+            background: white; 
+            padding: 3rem; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(62, 39, 35, 0.1); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .brand { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            color: #3E2723; 
+            margin-bottom: 0.5rem; 
+        }
+        .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+        
+        .form-group { text-align: left; margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; color: #6D4C41; margin-bottom: 8px; }
+        
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            background: #fafafa; 
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #6D4C41; background: white; outline: none; }
+
+        .btn-login { 
+            width: 100%; 
+            padding: 15px; 
+            background: #3E2723; 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 1rem;
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .btn-login:hover { background: #5D4037; transform: translateY(-2px); }
+        .btn-login:disabled { background: #ccc; cursor: not-allowed; }
+
+        .error-msg { 
+            background: #ffebee; 
+            color: #c62828; 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-size: 0.85rem; 
+            margin-bottom: 1.5rem; 
+            display: none; /* Sembunyi dulu */
+            border: 1px solid #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1 class="brand">Selasar Pro.</h1>
+        <p class="subtitle">Masuk untuk mengelola toko.</p>
+
+        <div id="error-box" class="error-msg"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label>NIK Admin</label>
+                <input type="text" id="nik" placeholder="Contoh: 320XXXXXXXXXXXXX" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>PIN Rahasia</label>
+                <input type="password" id="pin" placeholder="XXXXXXXX" required>
+            </div>
+            <button type="submit" class="btn-login" id="btn-submit">Masuk Dashboard</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault(); // Jangan refresh halaman
+
+            const nik = document.getElementById('nik').value;
+            const pin = document.getElementById('pin').value;
+            const btn = document.getElementById('btn-submit');
+            const errorBox = document.getElementById('error-box');
+
+            // Reset tampilan
+            errorBox.style.display = 'none';
+            btn.innerText = "Memverifikasi...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nik, pin })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // Login Sukses!
+                    btn.innerText = "Sukses! Mengalihkan...";
+                    window.location.href = 'admin.html'; // Masuk ke admin
+                } else {
+                    // Login Gagal
+                    throw new Error(data.error || "Login gagal");
+                }
+            } catch (err) {
+                errorBox.innerText = "⛔ " + err.message;
+                errorBox.style.display = 'block';
+                btn.innerText = "Masuk Dashboard";
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>
