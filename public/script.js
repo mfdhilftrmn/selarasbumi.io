@@ -332,3 +332,37 @@ async function processCheckout() {
         checkoutBtn.disabled = false;
     }
 }
+
+// --- 7. LOGIKA MENU HAMBURGER (MOBILE) ---
+const hamburgerBtn = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const closeMenuBtn = document.getElementById('close-mobile-menu');
+
+// Buka Menu
+if (hamburgerBtn) {
+    hamburgerBtn.onclick = (e) => {
+        e.preventDefault();
+        mobileMenu.classList.add('active');
+        // Pastikan overlay (gelap-gelap background) juga muncul jika mau
+        if(overlay) overlay.classList.add('active'); 
+    };
+}
+
+// Tutup Menu (Tombol X)
+if (closeMenuBtn) {
+    closeMenuBtn.onclick = () => closeMenu();
+}
+
+// Fungsi Tutup Universal
+function closeMenu() {
+    if(mobileMenu) mobileMenu.classList.remove('active');
+    if(overlay) overlay.classList.remove('active');
+}
+
+// Tutup menu kalau klik di luar (Overlay)
+if(overlay) {
+    overlay.onclick = () => {
+        toggleCart(false); // Tutup keranjang
+        closeMenu();       // Tutup menu mobile
+    };
+}

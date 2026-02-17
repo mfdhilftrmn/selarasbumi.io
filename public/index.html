@@ -31,6 +31,17 @@
         </div>
     </nav>
 
+    <div class="mobile-menu" id="mobile-menu">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: bold;">Menu</span>
+            <span class="close-menu" id="close-mobile-menu"><i data-feather="x"></i></span>
+        </div>
+        <a href="#hero-section" onclick="closeMenu()">Home</a>
+        <a href="#about" onclick="closeMenu()">Cerita</a>
+        <a href="#menu" onclick="closeMenu()">Menu</a>
+        <a href="#contact" onclick="closeMenu()">Lokasi</a>
+    </div>
+
     <section id="hero-section" class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content container">
