@@ -6,7 +6,7 @@
     <title>Selasar Pro | Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="admin.css?v=2">
+    <link rel="stylesheet" href="admin.css?v=9999">
 </head>
 <body>
 
@@ -111,8 +111,7 @@
                 <h1>Antrean Masuk</h1>
                 <button onclick="loadOrders()" class="btn-refresh"><i data-feather="refresh-cw"></i></button>
             </header>
-            <div id="order-list" class="orders-grid">
-                </div>
+            <div id="order-list" class="orders-grid"></div>
         </div>
 
         <div id="view-menu" class="admin-view hidden">
@@ -122,9 +121,7 @@
                     <i data-feather="plus"></i> Tambah Menu
                 </button>
             </header>
-
-            <div id="menu-list" class="menu-admin-grid">
-                </div>
+            <div id="menu-list" class="menu-admin-grid"></div>
         </div>
 
         <div id="view-settings" class="admin-view hidden">
@@ -228,20 +225,22 @@
 
     <script src="admin.js"></script>
     <script>
-        // Logika Toggle Menu Mobile
-        // Logika Toggle Menu Mobile
-function toggleAdminMenu(forceClose = false) {
-    const sidebar = document.getElementById('admin-sidebar');
-    const overlay = document.getElementById('admin-overlay');
-    
-    if (forceClose) {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    } else {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
-}
+        // --- PENTING: MUNCULKAN ICON SEKARANG ---
+        feather.replace();
+        // ----------------------------------------
+
+        function toggleAdminMenu(forceClose = false) {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('admin-overlay');
+            
+            if (forceClose) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
 
         async function addNewProduct() {
             const name = document.getElementById('new-name').value;
