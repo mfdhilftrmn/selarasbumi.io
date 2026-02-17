@@ -340,7 +340,15 @@ app.post('/api/admin/update-config-bulk', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// --- BAGIAN BAWAH SERVER.JS (GANTI YANG LAMA DENGAN INI) ---
 
-module.exports = app; // PENTING: Export app untuk Vercel
+// Ganti app.listen yang lama dengan logika ini:
+const PORT = process.env.PORT || 3000;
+
+// Kode ini memastikan server jalan baik di Laptop (lokal) maupun di Vercel
+if (require.main === module) {
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}
+
+// PENTING: Export 'app' agar Vercel bisa menjalankannya
+module.exports = app;
