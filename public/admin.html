@@ -2,71 +2,104 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selasar Pro | Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="admin.css?v=2">
 </head>
 <body>
-    <aside class="sidebar">
-        <div class="sidebar-brand">Selasar Pro.</div>
+
+    <div class="mobile-header">
+        <div class="brand-mobile">Selasar Pro.</div>
+        <button id="mobile-menu-btn" onclick="toggleAdminMenu()">
+            <i data-feather="menu"></i>
+        </button>
+    </div>
+
+    <aside class="sidebar" id="admin-sidebar">
+        <div class="sidebar-header-mobile">
+            <span class="sidebar-brand-mobile">Menu Admin</span>
+            <button onclick="toggleAdminMenu()" class="btn-close-sidebar"><i data-feather="x"></i></button>
+        </div>
+
+        <div class="sidebar-brand desktop-only">Selasar Pro.</div>
+        
         <nav class="nav-menu">
-            <li class="nav-item active" onclick="showView('dashboard', this)"><i data-feather="grid"></i> Dashboard</li>
-            <li class="nav-item" onclick="showView('orders', this)"><i data-feather="shopping-bag"></i> Pesanan</li>
-            <li class="nav-item" onclick="showView('menu', this)"><i data-feather="coffee"></i> Menu Kopi</li>
-            <li class="nav-item" onclick="showView('settings', this)"><i data-feather="settings"></i> Pengaturan</li>
+            <div class="nav-item active" onclick="showView('dashboard', this); toggleAdminMenu(true)">
+                <i data-feather="grid"></i> <span>Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="showView('orders', this); toggleAdminMenu(true)">
+                <i data-feather="shopping-bag"></i> <span>Pesanan</span>
+                <span id="stat-orders-badge" class="badge-count hidden">0</span>
+            </div>
+            <div class="nav-item" onclick="showView('menu', this); toggleAdminMenu(true)">
+                <i data-feather="coffee"></i> <span>Menu & Stok</span>
+            </div>
+            <div class="nav-item" onclick="showView('settings', this); toggleAdminMenu(true)">
+                <i data-feather="settings"></i> <span>Pengaturan</span>
+            </div>
+            <div class="nav-item logout-btn" onclick="logout()">
+                <i data-feather="log-out"></i> <span>Keluar</span>
+            </div>
         </nav>
     </aside>
+
+    <div class="sidebar-overlay" id="admin-overlay" onclick="toggleAdminMenu()"></div>
 
     <main class="main-content">
         
         <div id="view-dashboard" class="admin-view">
-            <header style="display: flex; justify-content: space-between; align-items: center;">
+            <header class="page-header">
                 <div>
                     <h1>Ringkasan Toko</h1>
-                    <select id="stats-filter" onchange="loadDashboardStats()" style="width: auto; padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd;">
-                        <option value="all">Semua Waktu</option>
+                    <p class="subtitle">Pantau performa penjualan hari ini.</p>
+                </div>
+                <div class="header-actions">
+                    <select id="stats-filter" onchange="loadDashboardStats()">
                         <option value="today">Hari Ini</option>
                         <option value="week">Minggu Ini</option>
                         <option value="month">Bulan Ini</option>
-                        <option value="year">Tahun Ini</option>
+                        <option value="all">Semua Waktu</option>
                     </select>
+                    <button onclick="openResetModal()" class="btn-danger-outline">
+                        <i data-feather="trash-2"></i> Reset
+                    </button>
                 </div>
-                <button onclick="openResetModal()" style="background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer;">
-                    <i data-feather="trash-2" style="width: 16px; vertical-align: middle;"></i> Reset Data
-                </button>
             </header>
 
             <div class="stats-container">
-                <div class="stat-card" style="border-bottom: 4px solid #2e7d32;">
-                    <i data-feather="dollar-sign"></i> 
-                    <div><h3 id="stat-balance">Rp 0</h3><p>Total Saldo (Lunas)</p></div>
-                </div>
-                <div class="stat-card" style="border-bottom: 4px solid #C6A87C;">
-                    <i data-feather="shopping-cart"></i> 
-                    <div><h3 id="stat-sold">0</h3><p>Produk Terjual</p></div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i data-feather="dollar-sign"></i></div>
+                    <div><p>Pendapatan</p><h3 id="stat-balance">Rp 0</h3></div>
                 </div>
                 <div class="stat-card">
-                    <i data-feather="clock"></i> 
-                    <div><h3 id="stat-orders">0</h3><p>Antrean</p></div>
+                    <div class="stat-icon bg-gold"><i data-feather="shopping-cart"></i></div>
+                    <div><p>Terjual</p><h3 id="stat-sold">0</h3></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue"><i data-feather="file-text"></i></div>
+                    <div><p>Total Menu</p><h3 id="stat-menu">0</h3></div>
                 </div>
             </div>
 
-            <div class="card log-card-full" style="margin-top: 30px;">
-                <div class="card-header"><h2>📊 Log Penjualan Real-time</h2></div>
-                <div style="overflow-x: auto;">
-                    <table class="log-table">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2>📊 Riwayat Transaksi</h2>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Waktu</th>
-                                <th>Produk</th>
+                                <th>Menu</th>
                                 <th>Kategori</th>
                                 <th>Qty</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody id="sales-log-list">
-                            <tr><td colspan="5" style="text-align:center; padding:20px;">Belum ada data penjualan.</td></tr>
+                            <tr><td colspan="5" style="text-align:center; padding:20px; color:#999;">Memuat data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -74,96 +107,81 @@
         </div>
 
         <div id="view-orders" class="admin-view hidden">
-            <header><h1>Antrean Pesanan</h1></header>
-            <div id="order-list">Memuat pesanan...</div>
+            <header class="page-header">
+                <h1>Antrean Masuk</h1>
+                <button onclick="loadOrders()" class="btn-refresh"><i data-feather="refresh-cw"></i></button>
+            </header>
+            <div id="order-list" class="orders-grid">
+                </div>
         </div>
 
         <div id="view-menu" class="admin-view hidden">
-            <header><h1>Manajemen Menu</h1></header>
-            <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-header"><h2>➕ Menu Baru</h2></div>
-                    <form id="product-form" onsubmit="event.preventDefault(); addProduct();">
-                        <input type="text" id="p-name" placeholder="Nama Produk" required>
-                        <input type="number" id="p-price" placeholder="Harga" required>
-                        <select id="p-category">
-                            <option value="coffee">Coffee</option>
-                            <option value="non-coffee">Non-Coffee</option>
-                            <option value="eatery">Eatery</option>
-                        </select>
-                        <input type="text" id="p-image" placeholder="URL Foto">
-                        <textarea id="p-desc" placeholder="Deskripsi Singkat"></textarea>
-                        <button type="submit" class="btn-submit">Posting Menu</button>
-                    </form>
+            <header class="page-header">
+                <h1>Stok & Menu</h1>
+                <button onclick="document.getElementById('add-product-modal').style.display='flex'" class="btn-primary">
+                    <i data-feather="plus"></i> Tambah Menu
+                </button>
+            </header>
+
+            <div id="menu-list" class="menu-admin-grid">
                 </div>
-                <div class="card">
-                    <div class="card-header"><h2>🛒 Katalog Live</h2></div>
-                    <div id="menu-list" class="menu-admin-grid"></div>
-                </div>
-            </div>
         </div>
 
         <div id="view-settings" class="admin-view hidden">
-            <header><h1>Pengaturan Toko</h1></header>
+            <header class="page-header">
+                <h1>Pengaturan</h1>
+            </header>
             
-            <div class="dashboard-grid">
-                <div class="card settings-card-full">
-                    <div class="card-header"><h2>📱 Kontak & Operasional</h2></div>
-                    
+            <div class="settings-grid">
+                <div class="card">
+                    <div class="card-header"><h2>📱 Operasional</h2></div>
                     <div class="form-group">
                         <label>Status Toko</label>
                         <select id="set-status">
-                            <option value="open">🟢 Buka (Terima Pesanan)</option>
-                            <option value="closed">🔴 Tutup (Sementara)</option>
+                            <option value="open">🟢 BUKA (Terima Order)</option>
+                            <option value="closed">🔴 TUTUP (Tolak Order)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Nomor WhatsApp (628...)</label>
-                        <input type="number" id="set-wa" placeholder="Contoh: 628123456789">
+                        <label>WhatsApp Admin (628...)</label>
+                        <input type="number" id="set-wa" placeholder="62812345678">
                     </div>
                     <div class="form-group">
-                        <label>Email Toko</label>
-                        <input type="text" id="set-email" placeholder="halo@selasar.id">
-                    </div>
-                    <div class="form-group">
-                        <label>Username Instagram</label>
-                        <input type="text" id="set-ig" placeholder="@username (tanpa link)">
-                    </div>
-                    <div class="form-group">
-                        <label>Username TikTok</label>
-                        <input type="text" id="set-tiktok" placeholder="@username">
+                        <label>Email Notifikasi</label>
+                        <input type="email" id="set-email" placeholder="admin@kopi.com">
                     </div>
                 </div>
 
-                <div class="card settings-card-full">
-                    <div class="card-header"><h2>🖼️ Ganti Foto Website</h2></div>
-                    
+                <div class="card">
+                    <div class="card-header"><h2>🖼️ Tampilan Website</h2></div>
                     <div class="form-group">
-                        <label>Foto Banner Utama (Home)</label>
-                        <input type="text" id="set-hero-img" placeholder="Tempel URL Gambar di sini...">
-                        <small style="color: #888; display:block; margin-top:5px;">Gunakan link gambar (akhiran .jpg/.png)</small>
+                        <label>Link Foto Banner (Home)</label>
+                        <input type="text" id="set-hero-img" placeholder="https://...">
                     </div>
-                    
                     <div class="form-group">
-                        <label>Foto 'Tentang Kami'</label>
-                        <input type="text" id="set-about-img" placeholder="Tempel URL Gambar di sini...">
+                        <label>Link Foto Cerita (About)</label>
+                        <input type="text" id="set-about-img" placeholder="https://...">
                     </div>
-
-                    <div class="settings-actions">
-                        <button onclick="logout()" class="btn-logout-premium">Keluar</button>
-                        <button class="btn-submit" id="btn-save-settings">Simpan Perubahan</button>
+                    <div class="form-group two-col">
+                        <div>
+                            <label>Instagram</label>
+                            <input type="text" id="set-ig" placeholder="@username">
+                        </div>
+                        <div>
+                            <label>TikTok</label>
+                            <input type="text" id="set-tiktok" placeholder="@username">
+                        </div>
                     </div>
+                    <button id="btn-save-settings" class="btn-primary full-width">Simpan Perubahan</button>
                 </div>
             </div>
 
-            <div class="card log-card-full">
-                <div class="card-header"><h2>📋 Riwayat Akses Login</h2></div>
-                <div style="overflow-x: auto;">
-                    <table class="log-table">
-                        <thead><tr><th>Waktu</th><th>Nama Admin</th><th>NIK</th></tr></thead>
-                        <tbody id="log-list">
-                            <tr><td colspan="3" style="text-align:center;">Memuat data...</td></tr>
-                        </tbody>
+            <div class="card full-width" style="margin-top:20px;">
+                <div class="card-header"><h2>🔒 Riwayat Login</h2></div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead><tr><th>Waktu</th><th>Nama</th><th>NIK</th></tr></thead>
+                        <tbody id="log-list"></tbody>
                     </table>
                 </div>
             </div>
@@ -171,43 +189,78 @@
 
     </main>
 
-    <div id="modal-reset" class="overlay hidden" style="display: none; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
-        <div class="card" style="width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffcdd2;">
-            <h2 style="color: #c62828;">⚠️ Hapus Data Penjualan?</h2>
-            <p style="margin-bottom: 20px; color: #666;">Tindakan ini <b>permanen</b>. Masukkan NIK & PIN Admin untuk konfirmasi.</p>
-            
-            <input type="text" id="reset-nik" placeholder="NIK Admin" style="margin-bottom: 10px;">
-            <input type="password" id="reset-pin" placeholder="PIN Rahasia" style="margin-bottom: 20px;">
-            
-            <div style="display: flex; gap: 10px;">
-                <button onclick="closeResetModal()" style="flex: 1; padding: 12px; background: #eee; border: none; border-radius: 8px; cursor: pointer;">Batal</button>
-                <button onclick="confirmReset()" id="btn-confirm-reset" style="flex: 1; padding: 12px; background: #c62828; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">HAPUS SEMUA</button>
+    <div id="add-product-modal" class="overlay hidden" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Tambah Menu Baru</h2>
+                <span onclick="document.getElementById('add-product-modal').style.display='none'" style="cursor:pointer;"><i data-feather="x"></i></span>
+            </div>
+            <form onsubmit="event.preventDefault(); addNewProduct();">
+                <input type="text" id="new-name" placeholder="Nama Menu" required class="input-form">
+                <input type="number" id="new-price" placeholder="Harga (Rp)" required class="input-form">
+                <select id="new-cat" class="input-form">
+                    <option value="coffee">Coffee</option>
+                    <option value="non-coffee">Non-Coffee</option>
+                    <option value="eatery">Eatery</option>
+                </select>
+                <input type="text" id="new-img" placeholder="Link Gambar (URL)" class="input-form">
+                <textarea id="new-desc" placeholder="Deskripsi Singkat" class="input-form"></textarea>
+                <button type="submit" class="btn-primary full-width">Simpan Menu</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-reset" class="overlay hidden" style="display:none;">
+        <div class="modal-card text-center">
+            <div style="color:#c62828; margin-bottom:10px;"><i data-feather="alert-triangle" width="40" height="40"></i></div>
+            <h2 style="color:#c62828;">Hapus Semua Data?</h2>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:20px;">Data penjualan akan dihapus permanen. Masukkan kredensial Admin.</p>
+            <input type="text" id="reset-nik" placeholder="NIK Admin" class="input-form">
+            <input type="password" id="reset-pin" placeholder="PIN Admin" class="input-form">
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button onclick="closeResetModal()" class="btn-secondary full-width">Batal</button>
+                <button onclick="confirmReset()" id="btn-confirm-reset" class="btn-danger full-width">HAPUS</button>
             </div>
         </div>
     </div>
 
-    <div id="toast" class="toast-hidden"></div>
+    <div id="toast"></div>
+
     <script src="admin.js"></script>
     <script>
-        // Tambahan logika submit form produk
-        async function addProduct() {
-            const name = document.getElementById('p-name').value;
-            const price = document.getElementById('p-price').value;
-            const category = document.getElementById('p-category').value;
-            const image = document.getElementById('p-image').value;
-            const desc = document.getElementById('p-desc').value;
+        // Logika Toggle Menu Mobile
+        // Logika Toggle Menu Mobile
+function toggleAdminMenu(forceClose = false) {
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('admin-overlay');
+    
+    if (forceClose) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    } else {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+}
 
-            if(!name || !price) return alert("Nama dan Harga wajib diisi");
+        async function addNewProduct() {
+            const name = document.getElementById('new-name').value;
+            const price = document.getElementById('new-price').value;
+            const category = document.getElementById('new-cat').value;
+            const image = document.getElementById('new-img').value;
+            const description = document.getElementById('new-desc').value;
+
+            if(!name || !price) return alert("Nama dan Harga wajib!");
 
             await fetch('/api/admin/add-product', {
-                method: 'POST', 
+                method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ name, price, category, image, description: desc })
+                body: JSON.stringify({ name, price, category, image, description })
             });
 
-            document.getElementById('product-form').reset();
+            document.getElementById('add-product-modal').style.display = 'none';
+            showToast("✅ Menu Berhasil Ditambah!");
             loadMenu();
-            showToast("✅ Menu berhasil ditambahkan!");
         }
     </script>
 </body>
