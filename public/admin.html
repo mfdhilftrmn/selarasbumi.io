@@ -6,7 +6,7 @@
     <title>Selasar Pro | Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="admin.css?v=9999">
+    <link rel="stylesheet" href="admin.css?v=10002">
 </head>
 <body>
 
@@ -186,11 +186,13 @@
 
     </main>
 
-    <div id="add-product-modal" class="overlay hidden" style="display:none;">
+    <div id="add-product-modal" class="overlay" style="display:none;">
         <div class="modal-card">
-            <div class="modal-header">
+            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
                 <h2>Tambah Menu Baru</h2>
-                <span onclick="document.getElementById('add-product-modal').style.display='none'" style="cursor:pointer;"><i data-feather="x"></i></span>
+                <button type="button" onclick="closeModal()" style="background:none; border:none; cursor:pointer; color:#333;">
+                    <i data-feather="x"></i>
+                </button>
             </div>
             <form onsubmit="event.preventDefault(); addNewProduct();">
                 <input type="text" id="new-name" placeholder="Nama Menu" required class="input-form">
@@ -202,12 +204,16 @@
                 </select>
                 <input type="text" id="new-img" placeholder="Link Gambar (URL)" class="input-form">
                 <textarea id="new-desc" placeholder="Deskripsi Singkat" class="input-form"></textarea>
-                <button type="submit" class="btn-primary full-width">Simpan Menu</button>
+                
+                <div style="display:flex; gap:10px; margin-top:15px;">
+                    <button type="button" onclick="closeModal()" class="btn-secondary full-width">Batal</button>
+                    <button type="submit" class="btn-primary full-width">Simpan</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <div id="modal-reset" class="overlay hidden" style="display:none;">
+    <div id="modal-reset" class="overlay" style="display:none;">
         <div class="modal-card text-center">
             <div style="color:#c62828; margin-bottom:10px;"><i data-feather="alert-triangle" width="40" height="40"></i></div>
             <h2 style="color:#c62828;">Hapus Semua Data?</h2>
@@ -225,9 +231,8 @@
 
     <script src="admin.js"></script>
     <script>
-        // --- PENTING: MUNCULKAN ICON SEKARANG ---
+        // Nyalakan Icon Langsung
         feather.replace();
-        // ----------------------------------------
 
         function toggleAdminMenu(forceClose = false) {
             const sidebar = document.getElementById('admin-sidebar');
@@ -240,6 +245,11 @@
                 sidebar.classList.toggle('active');
                 overlay.classList.toggle('active');
             }
+        }
+
+        // Fungsi Tutup Modal Lebih Aman
+        function closeModal() {
+            document.getElementById('add-product-modal').style.display = 'none';
         }
 
         async function addNewProduct() {
@@ -257,7 +267,7 @@
                 body: JSON.stringify({ name, price, category, image, description })
             });
 
-            document.getElementById('add-product-modal').style.display = 'none';
+            closeModal();
             showToast("✅ Menu Berhasil Ditambah!");
             loadMenu();
         }
